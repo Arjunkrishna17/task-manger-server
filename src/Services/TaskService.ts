@@ -24,7 +24,7 @@ export const getSingleTaskService = async (taskId: string, userId: string) => {
 export const createTaskService = async (task: task, userId: string) => {
   const uniqueId = uuidv4();
 
-  const taskDetails = { ...task, user_id: userId, uniqueId: uniqueId };
+  const taskDetails = { ...task, user_id: userId, task_id: uniqueId };
 
   await createTaskDAL(taskDetails);
 };

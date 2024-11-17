@@ -40,7 +40,7 @@ const TaskSchema: Schema = new Schema(
       enum: ["To Do", "In Progress", "Done"], // Possible task statuses
     },
     user_id: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "User", // Reference to the User model
       required: true, // Each task must be assigned to a user
     },
@@ -53,14 +53,6 @@ const TaskSchema: Schema = new Schema(
       type: String,
       enum: ["Low", "Medium", "High"],
       default: "Medium",
-    },
-    created_at: {
-      type: Date,
-      default: Date.now,
-    },
-    updated_at: {
-      type: Date,
-      default: Date.now,
     },
   },
   {

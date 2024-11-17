@@ -14,7 +14,7 @@ StartDb();
 app.use(express.json());
 
 app.use("/auth", authRoutes);
-app.use("/task", taskRoutes);
+app.use("/tasks", taskRoutes);
 
 app.listen(8080, () => {
   console.info("listening at 8080");

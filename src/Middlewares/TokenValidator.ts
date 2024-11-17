@@ -25,7 +25,7 @@ export const TokenValidator: RequestHandler = (req, res, next) => {
           res.status(401).json("Authentication failed, error: " + err);
           console.info("Token Invalid error" + err);
         } else {
-          const userId = tokenInfo["user_id"].toString();
+          const userId = tokenInfo["userId"].toString();
           res.locals.userId = userId;
 
           next();

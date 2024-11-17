@@ -11,7 +11,7 @@ export interface task {
   status: string;
   user_id: string;
   due_date?: Date;
-  priority: string;
+  priority?: string;
 }
 
 export interface taskDoc extends Document {

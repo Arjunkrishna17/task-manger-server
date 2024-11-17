@@ -9,7 +9,9 @@ export const signupController: RequestHandler = async (req, res, next) => {
 
     await signupService(userInfo);
 
-    res.status(200).json({ success: true });
+    const token = await signinService(userInfo.email, userInfo.password);
+
+    res.status(200).json({ success: true, token });
   } catch (error: any) {
     console.error(error);
     res.status(500).json(`Something went wrong, error:${error.message}`);

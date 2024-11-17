@@ -44,8 +44,10 @@ export const createTaskController: RequestHandler = async (req, res, next) => {
 
     await createTaskService(taskInfo, userId);
 
-    res.status(200);
+    res.status(200).json("Task created successfully");
   } catch (error: any) {
+    console.error(error);
+
     res.status(500).json(`Something went wrong: ${error.message}`);
   }
 };
@@ -57,7 +59,7 @@ export const deleteTaskController: RequestHandler = async (req, res, next) => {
 
     await deleteTaskService(taskId, userId);
 
-    res.status(200);
+    res.status(200).json("Task deleted successfully");
   } catch (error: any) {
     res.status(500).json(`Something went wrong: ${error.message}`);
   }
@@ -70,7 +72,7 @@ export const updateTaskController: RequestHandler = async (req, res, next) => {
 
     await updateTaskService(task, userId);
 
-    res.status(200).json(task);
+    res.status(200).json("Task updated successfully");
   } catch (error: any) {
     res.status(500).json(`Something went wrong: ${error.message}`);
   }

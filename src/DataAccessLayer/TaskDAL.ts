@@ -32,5 +32,5 @@ export const updateTaskDAL = async (task: task, userId: string) => {
 };
 
 export const createTaskDAL = async (task: task) => {
-  await Task.create(task);
+  const response = await Task.create(task);
 };
