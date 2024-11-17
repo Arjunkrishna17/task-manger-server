@@ -1,23 +1,6 @@
 // models/Task.ts
-import mongoose, { Document, Schema } from "mongoose";
-
-// Define an interface for the Task model
-export interface ITask extends Document {
-  task_id: string; // Custom task identifier (optional)
-  title: string;
-  description?: string;
-  assigned_to?: {
-    id: string;
-    name: string; // Name of the assigned user
-    avatar_url: string; // Avatar URL of the assigned user
-  };
-  status: string;
-  user_id: string;
-  due_date?: Date;
-  priority: string;
-  created_at: Date;
-  updated_at: Date;
-}
+import mongoose, { Schema } from "mongoose";
+import { taskDoc } from "../Types/task";
 
 // Create the Task schema
 const TaskSchema: Schema = new Schema(
@@ -85,7 +68,6 @@ const TaskSchema: Schema = new Schema(
   }
 );
 
-// Create the Task model
-const Task = mongoose.model<ITask>("Task", TaskSchema);
+const Task = mongoose.model<taskDoc>("Task", TaskSchema);
 
 export default Task;

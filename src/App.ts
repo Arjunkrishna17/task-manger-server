@@ -3,6 +3,7 @@ import cors from "cors";
 
 import StartDb from "./Utils/StartDb";
 import authRoutes from "./Routes/AuthRoutes";
+import taskRoutes from "./Routes/TaskRoutes";
 
 const app = express();
 
@@ -13,7 +14,8 @@ StartDb();
 app.use(express.json());
 
 app.use("/auth", authRoutes);
+app.use("/task", taskRoutes);
 
 app.listen(8080, () => {
-  console.log("listening");
+  console.info("listening at 8080");
 });

@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 
-import { user } from "../../Types/user";
-import { signinService, signupService } from "../../Services/AuthService";
+import { user } from "../Types/user";
+import { signinService, signupService } from "../Services/AuthService";
 
 export const signupController: RequestHandler = async (req, res, next) => {
   try {
