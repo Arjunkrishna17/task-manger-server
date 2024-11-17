@@ -7,7 +7,7 @@ import taskRoutes from "./Routes/TaskRoutes";
 
 const app = express();
 
-app.use(cors({ origin: ["http://localhost:3000"] }));
+app.use(cors({ origin: "*" }));
 
 StartDb();
 
