@@ -13,6 +13,10 @@ StartDb();
 
 app.use(express.json());
 
+app.use("/health", (req, res, next) => {
+  // Helps Aws to keep the server running
+  res.status(200).end();
+});
 app.use("/auth", authRoutes);
 app.use("/tasks", taskRoutes);
 
