@@ -4,6 +4,7 @@ import mongoose, { Document, Schema } from "mongoose";
 // Define an interface for the User model
 export interface IUser extends Document {
   user_id: string; // Custom user_id field
+  user_name: string;
   email: string;
   password: string;
   google_id?: string;
@@ -19,6 +20,10 @@ const UserSchema: Schema = new Schema(
       type: String,
       required: true,
       unique: true, // Ensures that the user_id is unique across all users
+    },
+    user_name: {
+      type: String,
+      required: true,
     },
     email: {
       type: String,
@@ -36,14 +41,6 @@ const UserSchema: Schema = new Schema(
     },
     avatar_url: {
       type: String,
-    },
-    created_at: {
-      type: Date,
-      default: Date.now,
-    },
-    updated_at: {
-      type: Date,
-      default: Date.now,
     },
   },
   {
