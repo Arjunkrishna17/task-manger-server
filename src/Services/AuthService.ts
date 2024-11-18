@@ -1,12 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
-import { OAuth2Client } from "google-auth-library";
 
 import { getUserDetailsDAL, signupDAL } from "../DataAccessLayer/AuthDAL";
 import { user } from "../Types/user";
 import tokenGen from "../Utils/TokenGenerator";
 import axios from "axios";
-
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const uniqueId = uuidv4();
 
@@ -73,7 +70,6 @@ export const googleAuthService = async (token: string) => {
 
 const getUserInfo = async (accessToken: string) => {
   try {
-    // Make a GET request to the Google UserInfo API
     const response = await axios.get(
       "https://www.googleapis.com/oauth2/v3/userinfo",
       {
@@ -83,10 +79,8 @@ const getUserInfo = async (accessToken: string) => {
       }
     );
 
-    // The response will contain user info in JSON format
     const userInfo = response.data;
 
-    console.log("User Info:", userInfo);
     return userInfo;
   } catch (error) {
     console.error("Error fetching user info:", error);
