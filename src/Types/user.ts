@@ -4,7 +4,7 @@ export interface user {
   user_id: string; // Custom user_id field
   user_name: string;
   email: string;
-  password: string;
+  password?: string;
   google_id?: string;
   avatar_url?: string;
 }

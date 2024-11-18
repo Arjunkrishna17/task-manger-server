@@ -2,7 +2,9 @@ import User from "../Models/Users";
 import { user } from "../Types/user";
 
 export const signupDAL = async (userDetails: user) => {
-  await User.create(userDetails);
+  const newUser = await User.create(userDetails);
+
+  return newUser;
 };
 
 export const getUserDetailsDAL = async (email: string) => {

@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { signinController, signupController } from "../Controllers/Auth";
+import {
+  googleAuthController,
+  signinController,
+  signupController,
+} from "../Controllers/Auth";
 
 const authRoutes = Router();
 

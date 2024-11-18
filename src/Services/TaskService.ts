@@ -9,8 +9,12 @@ import {
 } from "../DataAccessLayer/TaskDAL";
 import { task } from "../Types/task";
 
-export const getAllTasksService = async (userId: string) => {
-  const tasks = await getAllTaskDAL(userId);
+export const getAllTasksService = async (
+  userId: string,
+  searchTerm?: string,
+  sortOrder?: "asc" | "desc"
+) => {
+  const tasks = await getAllTaskDAL(userId, searchTerm, sortOrder);
 
   return tasks;
 };

@@ -11,8 +11,13 @@ import {
 export const getAllTasksController: RequestHandler = async (req, res, next) => {
   try {
     const userId = res.locals.userId;
+    const { search, sortOrder } = req.query;
 
-    const tasks = await getAllTasksService(userId);
+    const tasks = await getAllTasksService(
+      userId,
+      search as string,
+      (sortOrder || "asc") as "asc" | "desc"
+    );
 
     res.status(200).json(tasks);
   } catch (error: any) {

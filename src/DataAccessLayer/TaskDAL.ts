@@ -1,8 +1,27 @@
 import Task from "../Models/Tasks";
 import { task } from "../Types/task";
 
-export const getAllTaskDAL = async (userId: string) => {
-  const response = await Task.find({ user_id: userId });
+export const getAllTaskDAL = async (
+  userId: string,
+  searchTerm?: string,
+  sortOrder: "asc" | "desc" = "asc",
+  sortField: string = "createdAt"
+) => {
+  let query: any = { user_id: userId };
+
+  // Add the search filter if a searchTerm is provided
+  if (searchTerm) {
+    query = {
+      ...query,
+      title: { $regex: searchTerm, $options: "i" },
+    };
+  }
+
+  // Add sorting by a dynamic field (sortField and sortOrder)
+  const sortOptions: any = {};
+  sortOptions[sortField] = sortOrder === "asc" ? 1 : -1; // 1 for ascending, -1 for descending
+
+  const response = await Task.find(query).sort(sortOptions);
 
   return response;
 };
