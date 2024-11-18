@@ -7,13 +7,20 @@ import {
   updateTaskController,
 } from "../Controllers/Tasks";
 import { TokenValidator } from "../Middlewares/TokenValidator";
+import { createTaskValidator } from "../Middlewares/Validations/TaskCreatorValidation";
+import { updateTaskValidate } from "../Middlewares/Validations/updateTaskValidator";
 
 const taskRoutes = Router();
 
 taskRoutes.get("", TokenValidator, getAllTasksController);
-taskRoutes.post("", TokenValidator, createTaskController);
+taskRoutes.post("", TokenValidator, createTaskValidator, createTaskController);
 taskRoutes.get("/:taskId", TokenValidator, getSingleTaskController);
-taskRoutes.put("/:taskId", TokenValidator, updateTaskController);
+taskRoutes.put(
+  "/:taskId",
+  TokenValidator,
+  updateTaskValidate,
+  updateTaskController
+);
 taskRoutes.delete("/:taskId", TokenValidator, deleteTaskController);
 
 export default taskRoutes;

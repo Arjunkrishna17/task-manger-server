@@ -4,6 +4,13 @@ import { getUserDetailsDAL, signupDAL } from "../DataAccessLayer/AuthDAL";
 import { user } from "../Types/user";
 import tokenGen from "../Utils/TokenGenerator";
 import axios from "axios";
+import {
+  DatabaseError,
+  InvalidTokenError,
+  NotFoundError,
+  UnauthorizedError,
+  ValidationError,
+} from "../Utils/Error";
 
 const uniqueId = uuidv4();
 
@@ -13,7 +20,9 @@ export const signupService = async (userInfo: user) => {
   const isUserExist = await getUserDetailsDAL(userInfo.email);
 
   if (isUserExist) {
-    throw new Error(`User ${user.email} already exists`);
+    throw new ValidationError(
+      `User with email ${userInfo.email} already exists.`
+    );
   }
 
   await signupDAL(user);
@@ -22,8 +31,12 @@ export const signupService = async (userInfo: user) => {
 export const signinService = async (email: string, password: string) => {
   const user: user | null = await getUserDetailsDAL(email);
 
+  if (!user) {
+    throw new NotFoundError("User not found.");
+  }
+
   if (user?.password !== password) {
-    throw new Error("Incorrect Username or Password.");
+    throw new UnauthorizedError("Incorrect email or password");
   }
 
   const token = tokenGen(user as user);
@@ -36,7 +49,7 @@ export const googleAuthService = async (token: string) => {
     const ticket = await getUserInfo(token);
 
     if (!ticket) {
-      return { status: 400, success: false, message: "Invalid Token" };
+      throw new InvalidTokenError("Invalid Token");
     }
 
     const { sub, email, name, picture } = ticket;

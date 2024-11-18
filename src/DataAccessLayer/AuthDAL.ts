@@ -1,10 +1,16 @@
 import User from "../Models/Users";
 import { user } from "../Types/user";
+import { DatabaseError } from "../Utils/Error";
 
 export const signupDAL = async (userDetails: user) => {
-  const newUser = await User.create(userDetails);
+  try {
+    const newUser = await User.create(userDetails);
 
-  return newUser;
+    return newUser;
+  } catch (error) {
+    console.log(`Sign up db error: ${error}`);
+    throw new DatabaseError("Failed to save user information.");
+  }
 };
 
 export const getUserDetailsDAL = async (email: string) => {
