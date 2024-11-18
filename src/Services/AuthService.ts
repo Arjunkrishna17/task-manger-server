@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 
 import { getUserDetailsDAL, signupDAL } from "../DataAccessLayer/AuthDAL";
@@ -11,6 +12,7 @@ import {
   UnauthorizedError,
   ValidationError,
 } from "../Utils/Error";
+import hashPassword from "../Utils/HashPassword";
 
 const uniqueId = uuidv4();
 
@@ -25,6 +27,10 @@ export const signupService = async (userInfo: user) => {
     );
   }
 
+  if (userInfo.password) {
+    user.password = await hashPassword(userInfo.password);
+  }
+
   await signupDAL(user);
 };
 
@@ -35,7 +41,12 @@ export const signinService = async (email: string, password: string) => {
     throw new NotFoundError("User not found.");
   }
 
-  if (user?.password !== password) {
+  const isPasswordCorrect = await bcrypt.compare(
+    password,
+    user.password as string
+  );
+
+  if (!isPasswordCorrect) {
     throw new UnauthorizedError("Incorrect email or password");
   }
 
