@@ -7,7 +7,7 @@ env:
    AWS_REGION: eu-north-1
    REPOSITORY: task-manager-repo
    ECS_SERVICE: task-manager-service
-   ECS_CLUSTER: task-manager-cluster
+   ECS_CLUSTER: task-manager-new-clustor
    ECS_TASK_DEFINITION: task-manager-td
 jobs:
    build:
@@ -57,15 +57,15 @@ jobs:
             image: ${{ steps.build-image.outputs.image }}
         - name: Stop Old Task
           run: |
-           aws ecs update-service --cluster  task-manager-cluster --service task-manager-service --desired-count 0
+           aws ecs update-service --cluster  task-manager-new-clustor --service task-manager-service --desired-count 0
             
         - name: Deploy Amazon ECS task definition
           uses: aws-actions/amazon-ecs-deploy-task-definition@v1
           with:
             task-definition: ${{ steps.update-task-def.outputs.task-definition }}
             service: task-manager-service
-            cluster: task-manager-cluster
+            cluster: task-manager-new-clustor
         
         - name: Start new task
           run: |
-           aws ecs update-service --cluster task-manager-cluster --service  task-manager-service --desired-count 1 --force-new-deployment
+           aws ecs update-service --cluster task-manager-new-clustor --service  task-manager-service --desired-count 1 --force-new-deployment
