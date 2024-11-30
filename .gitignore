@@ -1,3 +1,6 @@
 node_modules
 .env
 build
+task-manager-git-public-key
+task-manager-git-public-key.pub
+task-manager-git-private-key
