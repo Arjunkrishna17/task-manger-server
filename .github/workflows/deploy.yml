@@ -53,15 +53,15 @@ jobs:
             image: ${{ steps.build-image.outputs.image }}
         - name: Stop Old Task
           run: |
-           aws ecs update-service --cluster  ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --desired-count 0
+           aws ecs update-service --cluster  $ECS_CLUSTER --service $ECS_SERVICE --desired-count 0
             
         - name: Deploy Amazon ECS task definition
           uses: aws-actions/amazon-ecs-deploy-task-definition@v1
           with:
             task-definition: ${{ steps.update-task-def.outputs.task-definition }}
-            service: ${{ env.ECS_SERVICE }}
-            cluster: ${{ env.ECS_CLUSTER }}
+            service: $ECS_SERVICE
+            cluster: $ECS_CLUSTER
         
         - name: Start new task
           run: |
-           aws ecs update-service --cluster  ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --desired-count 1 --force-new-deployment
+           aws ecs update-service --cluster   $ECS_CLUSTER --service  $ECS_SERVICE --desired-count 1 --force-new-deployment
