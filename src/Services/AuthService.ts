@@ -14,9 +14,9 @@ import {
 } from "../Utils/Error";
 import hashPassword from "../Utils/HashPassword";
 
-const uniqueId = uuidv4();
-
 export const signupService = async (userInfo: user) => {
+  const uniqueId = uuidv4();
+
   const user = { ...userInfo, user_id: uniqueId };
 
   const isUserExist = await getUserDetailsDAL(userInfo.email);
@@ -66,6 +66,8 @@ export const googleAuthService = async (token: string) => {
     const { sub, email, name, picture } = ticket;
 
     const userDetails = await getUserDetailsDAL(email as string);
+
+    const uniqueId = uuidv4();
 
     let jwtToken: string;
 

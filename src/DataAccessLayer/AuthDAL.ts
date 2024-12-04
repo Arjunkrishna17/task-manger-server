@@ -8,7 +8,7 @@ export const signupDAL = async (userDetails: user) => {
 
     return newUser;
   } catch (error) {
-    console.log(`Sign up db error: ${error}`);
+    console.error(`Sign up db error: ${error}`);
     throw new DatabaseError("Failed to save user information.");
   }
 };
