@@ -8,6 +8,7 @@ const tokenGen = (payload: user) => {
   const tokenPayload = {
     userId: payload.user_id,
     username: payload.user_name,
+    email: payload.email,
   };
 
   return jwt.sign(tokenPayload, secret, { expiresIn: "7h" });
