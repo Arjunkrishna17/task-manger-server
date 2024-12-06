@@ -6,6 +6,7 @@ import authRoutes from "./Routes/AuthRoutes";
 import taskRoutes from "./Routes/TaskRoutes";
 import { googleAuthController } from "./Controllers/Auth";
 import errorHandler from "./Middlewares/ErrorHandler";
+import userRoutes from "./Routes/UserRoutes";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/health", (req, res, next) => {
 });
 app.post("/api/auth/google", googleAuthController);
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
 app.use("/tasks", taskRoutes);
 
 app.use(errorHandler);
