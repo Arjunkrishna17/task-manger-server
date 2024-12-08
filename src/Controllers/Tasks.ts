@@ -64,6 +64,6 @@ export const updateTaskController: RequestHandler = asyncHandler(
 
     await updateTaskService(task, userId);
 
-    res.status(200).json("Task updated successfully");
+    res.status(200).json("user details updated successfully");
   }
 );

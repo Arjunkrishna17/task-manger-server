@@ -1,4 +1,7 @@
-import { getUserDetailsById } from "../DataAccessLayer/UserDAL";
+import {
+  getUserDetailsById,
+  updateUserNameDAL,
+} from "../DataAccessLayer/UserDAL";
 import { NotFoundError } from "../Utils/Error";
 
 export const getUserDetailService = async (userId: string) => {
@@ -18,4 +21,8 @@ export const getUserDetailService = async (userId: string) => {
   }
 
   return response;
+};
+
+export const updateUserDetailService = async (userId: string, name: string) => {
+  await updateUserNameDAL(userId, name);
 };
