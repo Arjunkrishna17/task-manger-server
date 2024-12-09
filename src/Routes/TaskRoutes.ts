@@ -5,6 +5,7 @@ import {
   getAllTasksController,
   getSingleTaskController,
   updateTaskController,
+  updateTaskSortOrderController,
 } from "../Controllers/Tasks";
 import { TokenValidator } from "../Middlewares/TokenValidator";
 import { createTaskValidator } from "../Middlewares/Validations/TaskCreatorValidation";
@@ -21,6 +22,12 @@ taskRoutes.put(
   updateTaskValidate,
   updateTaskController
 );
+taskRoutes.put(
+  "",
+  TokenValidator,
+  updateTaskSortOrderController
+);
+
 taskRoutes.delete("/:taskId", TokenValidator, deleteTaskController);
 
 export default taskRoutes;

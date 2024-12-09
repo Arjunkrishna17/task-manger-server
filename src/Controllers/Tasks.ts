@@ -7,6 +7,7 @@ import {
   getAllTasksService,
   getSingleTaskService,
   updateTaskService,
+  updateTaskSortOrderService,
 } from "../Services/TaskService";
 
 export const getAllTasksController: RequestHandler = asyncHandler(
@@ -17,7 +18,7 @@ export const getAllTasksController: RequestHandler = asyncHandler(
     const tasks = await getAllTasksService(
       userId,
       search as string,
-      (sortOrder || "asc") as "asc" | "desc"
+      (sortOrder || "none") as "asc" | "desc" | "none"
     );
 
     res.status(200).json(tasks);
@@ -64,6 +65,17 @@ export const updateTaskController: RequestHandler = asyncHandler(
 
     await updateTaskService(task, userId);
 
-    res.status(200).json("user details updated successfully");
+    res.status(200).json("Task status updated successfully");
+  }
+);
+
+export const updateTaskSortOrderController: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const userId = res.locals.userId;
+    const tasks = req.body;
+
+    await updateTaskSortOrderService(tasks, userId);
+
+    res.status(200).json("Tasks updated successfully");
   }
 );

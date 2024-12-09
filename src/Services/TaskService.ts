@@ -6,15 +6,23 @@ import {
   getAllTaskDAL,
   getSingleTaskDAL,
   updateTaskDAL,
+  updateTaskSortOrderDAL,
 } from "../DataAccessLayer/TaskDAL";
 import { task } from "../Types/task";
 
 export const getAllTasksService = async (
   userId: string,
   searchTerm?: string,
-  sortOrder?: "asc" | "desc"
+  sortOrder?: "asc" | "desc" | "none"
 ) => {
-  const tasks = await getAllTaskDAL(userId, searchTerm, sortOrder);
+ 
+
+  const tasks = await getAllTaskDAL(
+    userId,
+    searchTerm,
+    sortOrder === "none" ? "asc" : sortOrder,
+    sortOrder === "none" ? "sortOrder" : "createdAt"
+  );
 
   return tasks;
 };
@@ -35,6 +43,13 @@ export const createTaskService = async (task: task, userId: string) => {
 
 export const updateTaskService = async (task: task, userId: string) => {
   await updateTaskDAL(task, userId);
+};
+
+export const updateTaskSortOrderService = async (
+  tasks: task[],
+  userId: string
+) => {
+  await updateTaskSortOrderDAL(tasks, userId);
 };
 
 export const deleteTaskService = async (taskId: string, userId: string) => {

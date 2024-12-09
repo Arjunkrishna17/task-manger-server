@@ -37,8 +37,10 @@ export const signupService = async (userInfo: user) => {
 export const signinService = async (email: string, password: string) => {
   const user: user | null = await getUserDetailsDAL(email);
 
-  if (!user) {
-    throw new NotFoundError("User not found.");
+  if (!user || !user.password) {
+    throw new NotFoundError(
+      "The email or password you entered is incorrect. Please try again."
+    );
   }
 
   const isPasswordCorrect = await bcrypt.compare(

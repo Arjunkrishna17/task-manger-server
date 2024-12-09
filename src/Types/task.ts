@@ -12,6 +12,7 @@ export interface task {
   user_id: string;
   due_date?: Date;
   priority?: string;
+  sortOrder: number;
 }
 
 export interface taskDoc extends Document {

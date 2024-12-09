@@ -19,9 +19,10 @@ export const getAllTaskDAL = async (
       };
     }
 
-    // Add sorting by a dynamic field (sortField and sortOrder)
+    const order = sortOrder === "asc" ? 1 : -1;
+
     const sortOptions: any = {};
-    sortOptions[sortField] = sortOrder === "asc" ? 1 : -1; // 1 for ascending, -1 for descending
+    sortOptions[sortField] = order; // 1 for ascending, -1 for descending
 
     const response = await Task.find(query).sort(sortOptions);
 
@@ -72,6 +73,26 @@ export const createTaskDAL = async (task: task) => {
     const response = await Task.create(task);
   } catch (error) {
     console.error("Error in createTaskDAL:", error);
+    throw new InternalServerError("Error creating the task.");
+  }
+};
+
+export const updateTaskSortOrderDAL = async (tasks: task[], userId: string) => {
+  try {
+    // Create bulk operations
+    const bulkOps = tasks.map(
+      (task: { task_id: string; sortOrder: number; status: string }) => ({
+        updateOne: {
+          filter: { task_id: task.task_id, user_id: userId },
+          update: { sortOrder: task.sortOrder, status: task.status },
+        },
+      })
+    );
+
+    // Execute bulkWrite
+    await Task.bulkWrite(bulkOps);
+  } catch (error) {
+    console.error("Error in updating the updateTaskSortOrderDAL:", error);
     throw new InternalServerError("Error creating the task.");
   }
 };
