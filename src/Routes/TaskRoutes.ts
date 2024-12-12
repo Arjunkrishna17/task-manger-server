@@ -13,7 +13,7 @@ import { updateTaskValidate } from "../Middlewares/Validations/updateTaskValidat
 
 const taskRoutes = Router();
 
-taskRoutes.get("", TokenValidator, getAllTasksController);
+taskRoutes.get("/:collectionId", TokenValidator, getAllTasksController);
 taskRoutes.post("", TokenValidator, createTaskValidator, createTaskController);
 taskRoutes.get("/:taskId", TokenValidator, getSingleTaskController);
 taskRoutes.put(
@@ -22,12 +22,7 @@ taskRoutes.put(
   updateTaskValidate,
   updateTaskController
 );
-taskRoutes.put(
-  "",
-  TokenValidator,
-  updateTaskSortOrderController
-);
-
+taskRoutes.put("", TokenValidator, updateTaskSortOrderController);
 taskRoutes.delete("/:taskId", TokenValidator, deleteTaskController);
 
 export default taskRoutes;

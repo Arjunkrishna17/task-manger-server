@@ -4,12 +4,13 @@ import { InternalServerError } from "../Utils/Error";
 
 export const getAllTaskDAL = async (
   userId: string,
+  collectionId: string,
   searchTerm?: string,
   sortOrder: "asc" | "desc" = "asc",
   sortField: string = "createdAt"
 ) => {
   try {
-    let query: any = { user_id: userId };
+    let query: any = { user_id: userId, collection_id: collectionId };
 
     // Add the search filter if a searchTerm is provided
     if (searchTerm) {

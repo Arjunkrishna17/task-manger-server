@@ -12,13 +12,13 @@ import { task } from "../Types/task";
 
 export const getAllTasksService = async (
   userId: string,
+  collectionId: string,
   searchTerm?: string,
   sortOrder?: "asc" | "desc" | "none"
 ) => {
- 
-
   const tasks = await getAllTaskDAL(
     userId,
+    collectionId,
     searchTerm,
     sortOrder === "none" ? "asc" : sortOrder,
     sortOrder === "none" ? "sortOrder" : "createdAt"

@@ -34,7 +34,7 @@ export const updateCollectionController: RequestHandler = asyncHandler(
   }
 );
 
-export const createCollection: RequestHandler = asyncHandler(
+export const createCollectionController: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const userId = res.locals.userId;
     const collectionData: userInputCollection = req.body;
