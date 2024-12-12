@@ -96,3 +96,20 @@ export const updateTaskSortOrderDAL = async (tasks: task[], userId: string) => {
     throw new InternalServerError("Error creating the task.");
   }
 };
+
+export const getAllTasksByCollectionId = async (
+  collectionId: string,
+  userId: string
+) => {
+  try {
+    const tasks = await Task.find({
+      user_id: userId,
+      collection_id: collectionId,
+    });
+
+    return tasks;
+  } catch (error) {
+    console.error("Error in get tasks using collectionId in db:", error);
+    throw new InternalServerError("Failed to get Tasks.");
+  }
+};

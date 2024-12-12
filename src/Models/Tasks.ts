@@ -9,6 +9,7 @@ const TaskSchema: Schema = new Schema(
       type: String,
       unique: true,
     },
+    collection_id: { type: String, required: true },
     sortOrder: {
       type: Number,
       required: true,
