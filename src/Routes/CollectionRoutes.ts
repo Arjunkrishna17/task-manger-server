@@ -22,3 +22,5 @@ collectionRouter.delete(
   TokenValidator,
   deleteCollectionController
 );
+
+export default collectionRouter;
