@@ -13,7 +13,7 @@ import {
 export const getAllTasksController: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const userId = res.locals.userId;
-    const collectionId = req.params.collectionId;
+    const collectionId = req.query.collectionId as string;
     const { search, sortOrder } = req.query;
 
     const tasks = await getAllTasksService(
