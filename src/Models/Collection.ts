@@ -3,11 +3,11 @@ import mongoose, { Schema } from "mongoose";
 const collectionSchema: Schema = new Schema(
   {
     collection_id: {
-      type: "string",
+      type: String,
       required: true,
       unique: true,
     },
-    user_id: { type: "string", required: true },
+    user_id: { type: String, required: true },
     name: {
       type: String,
       required: true,

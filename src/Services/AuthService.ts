@@ -13,6 +13,8 @@ import {
   ValidationError,
 } from "../Utils/Error";
 import hashPassword from "../Utils/HashPassword";
+import { createCollectionService } from "./CollectionService";
+import { createTaskService } from "./TaskService";
 
 export const signupService = async (userInfo: user) => {
   const uniqueId = uuidv4();
@@ -32,6 +34,23 @@ export const signupService = async (userInfo: user) => {
   }
 
   await signupDAL(user);
+
+  //create new example collection and Task
+  const newCollection = {
+    name: "Example Collection",
+    description: "Click to view the tasks in this collection.",
+  };
+  const collection = await createCollectionService(user.user_id, newCollection);
+
+  const newTask: any = {
+    title: "Example Task",
+    description: "Drag me to next column to update my status",
+    status: "To Do",
+    sortOrder: 0,
+    collection_id: collection.collection_id,
+  };
+
+  await createTaskService(newTask, user.user_id);
 };
 
 export const signinService = async (email: string, password: string) => {

@@ -1,7 +1,4 @@
-import {
-  collectionType,
-  userUpdateCollectionInput,
-} from "../Types/Collection";
+import { collectionType, userUpdateCollectionInput } from "../Types/Collection";
 import Collection from "../Models/Collection";
 import { InternalServerError } from "../Utils/Error";
 
@@ -31,7 +28,7 @@ export const updateCollectionByIdDAL = async (
   data: userUpdateCollectionInput
 ) => {
   try {
-    return await Collection.findByIdAndUpdate(
+    return await Collection.findOneAndUpdate(
       { collection_id: id, user_id: userId },
       { $set: data },
       {

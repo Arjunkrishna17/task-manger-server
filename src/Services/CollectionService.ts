@@ -10,6 +10,7 @@ import {
   userInputCollection,
   userUpdateCollectionInput,
 } from "../Types/Collection";
+import { deleteTaskService } from "./TaskService";
 
 export const getAllCollectionService = async (userId: string) => {
   const allCollections = (await getAllCollectionsDAL(userId)) || [];
@@ -48,5 +49,5 @@ export const deleteCollectionById = async (
   collectionId: string,
   userId: string
 ) => {
-  await deleteCollectionById(collectionId, userId);
+  await deleteTaskService(collectionId, userId);
 };
