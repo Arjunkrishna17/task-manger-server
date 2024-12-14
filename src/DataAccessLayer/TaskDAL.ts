@@ -4,12 +4,13 @@ import { InternalServerError } from "../Utils/Error";
 
 export const getAllTaskDAL = async (
   userId: string,
+  collectionId: string,
   searchTerm?: string,
   sortOrder: "asc" | "desc" = "asc",
   sortField: string = "createdAt"
 ) => {
   try {
-    let query: any = { user_id: userId };
+    let query: any = { user_id: userId, collection_id: collectionId };
 
     // Add the search filter if a searchTerm is provided
     if (searchTerm) {
@@ -94,5 +95,22 @@ export const updateTaskSortOrderDAL = async (tasks: task[], userId: string) => {
   } catch (error) {
     console.error("Error in updating the updateTaskSortOrderDAL:", error);
     throw new InternalServerError("Error creating the task.");
+  }
+};
+
+export const getAllTasksByCollectionId = async (
+  collectionId: string,
+  userId: string
+) => {
+  try {
+    const tasks = await Task.find({
+      user_id: userId,
+      collection_id: collectionId,
+    });
+
+    return tasks;
+  } catch (error) {
+    console.error("Error in get tasks using collectionId in db:", error);
+    throw new InternalServerError("Failed to get Tasks.");
   }
 };

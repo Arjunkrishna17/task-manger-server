@@ -1,5 +1,5 @@
 // Middlewares/validateTask.ts
-import { body, validationResult } from "express-validator";
+import { body, query, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 
 // Validation for Task creation and updating
@@ -62,4 +62,12 @@ export const updateTaskValidate: any = [
     }
     next();
   },
+];
+
+export const validateGetAllTasks = [
+  query("collectionId")
+    .exists({ checkFalsy: true })
+    .withMessage("collectionId is required.")
+    .isString()
+    .withMessage("collectionId must be a string."),
 ];
