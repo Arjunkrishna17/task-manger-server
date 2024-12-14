@@ -36,21 +36,7 @@ export const signupService = async (userInfo: user) => {
   await signupDAL(user);
 
   //create new example collection and Task
-  const newCollection = {
-    name: "Example Collection",
-    description: "Click to view the tasks in this collection.",
-  };
-  const collection = await createCollectionService(user.user_id, newCollection);
-
-  const newTask: any = {
-    title: "Example Task",
-    description: "Drag me to next column to update my status",
-    status: "To Do",
-    sortOrder: 0,
-    collection_id: collection.collection_id,
-  };
-
-  await createTaskService(newTask, user.user_id);
+  await createCollectionAndTask(user.user_id);
 };
 
 export const signinService = async (email: string, password: string) => {
@@ -103,6 +89,9 @@ export const googleAuthService = async (token: string) => {
 
       const userInfo = await signupDAL(userDetails);
 
+      //create new example collection and Task
+      await createCollectionAndTask(userDetails.user_id);
+
       jwtToken = tokenGen(userInfo as user);
     } else {
       jwtToken = tokenGen(userDetails as user);
@@ -133,4 +122,22 @@ const getUserInfo = async (accessToken: string) => {
     console.error("Error fetching user info:", error);
     throw error;
   }
+};
+
+const createCollectionAndTask = async (userId: string) => {
+  const newCollection = {
+    name: "Example Collection",
+    description: "Click to view the tasks in this collection.",
+  };
+  const collection = await createCollectionService(userId, newCollection);
+
+  const newTask: any = {
+    title: "Example Task",
+    description: "Drag me to next column to update my status",
+    status: "To Do",
+    sortOrder: 0,
+    collection_id: collection.collection_id,
+  };
+
+  await createTaskService(newTask, userId);
 };
