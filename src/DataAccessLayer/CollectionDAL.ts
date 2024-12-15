@@ -41,9 +41,9 @@ export const updateCollectionByIdDAL = async (
   }
 };
 
-export const deleteCollectionById = async (id: string, userId: string) => {
+export const deleteCollectionByIdDAL = async (id: string, userId: string) => {
   try {
-    return await Collection.findByIdAndDelete({
+    return await Collection.findOneAndDelete({
       collection_id: id,
       user_id: userId,
     });

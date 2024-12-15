@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import {
   createCollectionDAL,
+  deleteCollectionByIdDAL,
   getAllCollectionsDAL,
   updateCollectionByIdDAL,
 } from "../DataAccessLayer/CollectionDAL";
@@ -49,5 +50,5 @@ export const deleteCollectionById = async (
   collectionId: string,
   userId: string
 ) => {
-  await deleteTaskService(collectionId, userId);
+  await deleteCollectionByIdDAL(collectionId, userId);
 };
