@@ -1,7 +1,13 @@
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
+import nodemailer from "nodemailer";
 
-import { getUserDetailsDAL, signupDAL } from "../DataAccessLayer/AuthDAL";
+import {
+  getUserDetailsDAL,
+  signupDAL,
+  updateUserDetailsDAL,
+} from "../DataAccessLayer/AuthDAL";
 import { user } from "../Types/user";
 import tokenGen from "../Utils/TokenGenerator";
 import axios from "axios";
@@ -15,6 +21,8 @@ import {
 import hashPassword from "../Utils/HashPassword";
 import { createCollectionService } from "./CollectionService";
 import { createTaskService } from "./TaskService";
+import ForgotPassTokenGen from "../Utils/ForgotPassTokenGen";
+import { getEmailFormat } from "../Utils/EmailHtml";
 
 export const signupService = async (userInfo: user) => {
   const uniqueId = uuidv4();
@@ -140,4 +148,65 @@ const createCollectionAndTask = async (userId: string) => {
   };
 
   await createTaskService(newTask, userId);
+};
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "taskmanager.care@gmail.com", // your email
+    pass: process.env.GMAIL_PASSWORD, // your email password (use env variables for production)
+  },
+});
+
+export const forgotPasswordService = async (email: string) => {
+  const user = await getUserDetailsDAL(email);
+
+  if (!user) {
+    return;
+  }
+
+  const token = ForgotPassTokenGen(user.user_id, email);
+
+  const resetLink = process.env.RESET_PASSWORD_URL + "/" + token;
+
+  const mailOptions = {
+    from: "taskmanager.care@gmail.com",
+    to: email,
+    subject: "Password Reset Request",
+    html: getEmailFormat(resetLink, user.user_name),
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+export const resetPasswordService = async (token: string, password: string) => {
+  try {
+    const decoded: any = jwt.verify(
+      token,
+      process.env.JWT_SECRET_KEY_FOR_FORGET_PASSWORD as string
+    );
+
+    const user = await getUserDetailsDAL(decoded.email);
+
+    if (!user) {
+      throw new NotFoundError("Invalid User");
+    }
+
+    const hashPass = await hashPassword(password);
+
+    await updateUserDetailsDAL(user.user_id, { password: hashPass });
+
+    const loginToken = tokenGen(user);
+
+    return loginToken;
+  } catch (error) {
+    console.error({ error });
+
+    if (error instanceof jwt.TokenExpiredError) {
+      throw new NotFoundError("Token has expired");
+    }
+
+    // Invalid token
+    throw new NotFoundError("Invalid token");
+  }
 };

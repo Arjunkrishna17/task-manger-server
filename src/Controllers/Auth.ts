@@ -1,13 +1,17 @@
-import { asyncHandler } from "./../Utils/AsyncHandler";
+import jwt from "jsonwebtoken";
 import { RequestHandler } from "express";
 
+import { asyncHandler } from "./../Utils/AsyncHandler";
 import { user } from "../Types/user";
 import {
+  forgotPasswordService,
   googleAuthService,
+  resetPasswordService,
   signinService,
   signupService,
 } from "../Services/AuthService";
 import { UnauthorizedError, ValidationError } from "../Utils/Error";
+
 
 export const signupController: RequestHandler = asyncHandler(
   async (req, res, next) => {
@@ -54,5 +58,29 @@ export const googleAuthController: RequestHandler = asyncHandler(
     } else {
       throw new UnauthorizedError(message);
     }
+  }
+);
+
+export const forgotPassword: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const { email } = req.body;
+
+    await forgotPasswordService(email);
+
+    res.status(200).json("Password reset email sent successfully");
+  }
+);
+
+export const resetPassword: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const { password, token } = req.body;
+
+    const logInToken = await resetPasswordService(token, password);
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+      token: logInToken,
+    });
   }
 );
