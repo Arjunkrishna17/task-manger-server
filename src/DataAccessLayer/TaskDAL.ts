@@ -7,7 +7,8 @@ export const getAllTaskDAL = async (
   collectionId: string,
   searchTerm?: string,
   sortOrder: "asc" | "desc" = "asc",
-  sortField: string = "createdAt"
+  sortField: string = "createdAt",
+  priority?: string
 ) => {
   try {
     let query: any = { user_id: userId, collection_id: collectionId };
@@ -18,6 +19,10 @@ export const getAllTaskDAL = async (
         ...query,
         title: { $regex: searchTerm, $options: "i" },
       };
+    }
+
+    if (priority) {
+      query = { ...query, priority: priority };
     }
 
     const order = sortOrder === "asc" ? 1 : -1;

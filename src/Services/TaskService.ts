@@ -14,14 +14,16 @@ export const getAllTasksService = async (
   userId: string,
   collectionId: string,
   searchTerm?: string,
-  sortOrder?: "asc" | "desc" | "none"
+  sortOrder?: "asc" | "desc" | "none",
+  priority?: string
 ) => {
   const tasks = await getAllTaskDAL(
     userId,
     collectionId,
     searchTerm,
     sortOrder === "none" ? "asc" : sortOrder,
-    sortOrder === "none" ? "sortOrder" : "createdAt"
+    sortOrder === "none" ? "sortOrder" : "createdAt",
+    priority
   );
 
   return tasks;

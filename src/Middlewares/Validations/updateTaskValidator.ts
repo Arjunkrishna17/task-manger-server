@@ -25,8 +25,10 @@ export const updateTaskValidate: any = [
   // Priority should be one of the allowed values: "Low", "Medium", or "High"
   body("priority")
     .optional()
-    .isIn(["Low", "Medium", "High"])
-    .withMessage("Priority must be one of 'Low', 'Medium', or 'High'"),
+    .isIn(["Low", "Medium", "High", "Critical"])
+    .withMessage(
+      "Priority must be one of 'Low', 'Medium', or 'High' or 'Critical'"
+    ),
 
   // User ID should be a valid MongoDB ObjectId (as you're referencing a User model)
   body("user_id").notEmpty().withMessage("User ID must be a valid ObjectId"),
